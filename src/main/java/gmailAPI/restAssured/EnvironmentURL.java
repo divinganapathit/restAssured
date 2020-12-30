@@ -16,12 +16,12 @@ public class EnvironmentURL {
 	}
 
 	public static String getPostURL2() {
-		Log.info("Append Input URL : " + userCreditinals.getString("listPart2"));
+		Log.info("Append POST URL : " + userCreditinals.getString("listPart2"));
 		return userCreditinals.getString("listPart2");
 	}
 
 	public static String userID() {
-		Log.info("Append Invalid URL : " + userCreditinals.getString("userID"));
+		Log.info("Append UserID : " + userCreditinals.getString("userID"));
 		return userCreditinals.getString("userID");
 	}
 

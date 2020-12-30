@@ -1,19 +1,16 @@
 package gmailAPI.restAssured;
 
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-
-import org.testng.Assert;
-import org.testng.Reporter;
 import org.testng.annotations.Test;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import io.restassured.response.Response;
+
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.MatcherAssert.assertThat;
 
 public class GetTestClass {
 	@Test()
@@ -25,13 +22,12 @@ public class GetTestClass {
 				.getResponse(EnvironmentURL.getPostURL1() + EnvironmentURL.userID() + EnvironmentURL.getPostURL2());
 		Log.info("Verfy Status Code of API Response Actual : " + response.getStatusCode() + " Expected : "
 				+ StaticData.status_200);
-		Assert.assertEquals(response.getStatusCode(), StaticData.status_200,
-				"Status Assertion Failed : " + response.getStatusCode());
+		assertThat(StaticData.status_200, is(response.getStatusCode()));
 		JsonParser objJsonParses = new JsonParser();
 		JsonObject objJsonObject = (JsonObject) objJsonParses.parse(response.asString());
 		int totalMail = objJsonObject.get("resultSizeEstimate").getAsInt();
 		System.out.println("Total number of mail in the inbox:" + totalMail);
-		Reporter.log("Total number of mail in the inbox:" + totalMail);
+		Log.info("Total number of mail in the inbox:" + totalMail);
 		JsonArray messages = (JsonArray) objJsonObject.get("messages");
 		for (int i = 0; i < messages.size(); i++) {
 			System.out.println("The " + i + " element of the array: " + messages.get(i));
@@ -40,8 +36,10 @@ public class GetTestClass {
 		while (i.hasNext()) {
 			JsonObject innerObj = (JsonObject) i.next();
 			System.out.println("id :" + innerObj.get("id"));
-			Reporter.log("id:"+innerObj.get("id").getAsString());
+			Log.info("id:" + innerObj.get("id").getAsString());
 		}
+		int actual = 11;
+		assertThat(actual, is(totalMail));
 
 		/*
 		 * JsonElement objJsonElement = p.parse(response.asString());
